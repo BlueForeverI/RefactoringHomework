@@ -1,56 +1,87 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace RotatingWalkInMatrix
 {
     public class Matrix
     {
-        static void Change(ref int dx, ref int dy)
+        private int size;
+        int[,] matrix;
+        int step;
+        int currentNumber;
+        Cell previousCell;
+        Cell nextCell;
+
+        public Matrix(int size)
         {
-            int[] dirX = { 1, 1, 1, 0, -1, -1, -1, 0 };
-            int[] dirY = { 1, 0, -1, -1, -1, 0, 1, 1 };
-            int cellCount = 0;
-
-            for (int count = 0; count < 8; count++)
-            {
-                if (dirX[count] == dx && dirY[count] == dy) 
-                { 
-                    cellCount = count; 
-                    break; 
-                }
-            }
-
-            if (cellCount == 7) 
-            { 
-                dx = dirX[0]; 
-                dy = dirY[0]; 
-                return; 
-            }
-
-            dx = dirX[cellCount + 1];
-            dy = dirY[cellCount + 1];
+            this.size = size;
+            this.matrix = new int[size, size];
+            this.step = size;
+            this.currentNumber = 1;
+            this.previousCell = new Cell(0, 0);
+            this.nextCell = new Cell(1, 1);
         }
 
-        static bool AreThereFreeCells(int[,] arr, int x, int y)
+        static void Change(ref Cell cell)
         {
-            int[] dirX = { 1, 1, 1, 0, -1, -1, -1, 0 };
-            int[] dirY = { 1, 0, -1, -1, -1, 0, 1, 1 };
+            Cell[] directions = new Cell[] 
+            {
+                new Cell(1, 1),
+                new Cell(1, 0),
+                new Cell(1, -1), 
+                new Cell(0, -1),
+                new Cell(-1, -1),
+                new Cell(-1, 0),
+                new Cell(-1, 1),
+                new Cell(0, 1)
+            };
+
+            int cellCount = 0;
 
             for (int i = 0; i < 8; i++)
             {
-                if (x + dirX[i] >= arr.GetLength(0) || x + dirX[i] < 0)
+                if (directions[i].X == cell.X && directions[i].Y == cell.Y)
                 {
-                    dirX[i] = 0;
+                    cellCount = i;
+                    break;
                 }
+            }
 
-                if (y + dirY[i] >= arr.GetLength(0) || y + dirY[i] < 0)
-                {
-                    dirY[i] = 0;
-                }
+            if (cellCount == 7)
+            {
+                cell = directions[0];
+                return;
+            }
+
+            cell = directions[cellCount + 1];
+        }
+
+        bool AreThereFreeNeighbours(Cell cell)
+        {
+            Cell[] directions = new Cell[] 
+            {
+                new Cell(1, 1),
+                new Cell(1, 0),
+                new Cell(1, -1), 
+                new Cell(0, -1),
+                new Cell(-1, -1),
+                new Cell(-1, 0),
+                new Cell(-1, 1),
+                new Cell(0, 1)
+            };
+
+            for (int i = 0; i < 8; i++)
+            {
+                directions[i] = MoveCellInDirection(cell, directions[i]);
             }
 
             for (int i = 0; i < 8; i++)
             {
-                if (arr[x + dirX[i], y + dirY[i]] == 0)
+                bool isCellFree = this.matrix[cell.X + directions[i].X, 
+                    cell.Y + directions[i].Y] == 0;
+                if (isCellFree)
                 {
                     return true;
                 }
@@ -59,90 +90,101 @@ namespace RotatingWalkInMatrix
             return false;
         }
 
-        static void FindNextFreeCell(int[,] arr, out int x, out int y)
+        private Cell MoveCellInDirection(Cell cell, Cell direction)
         {
-            x = 0;
-            y = 0;
-
-            for (int i = 0; i < arr.GetLength(0); i++)
+            bool isXOutOfRange = cell.X + direction.X >= this.matrix.GetLength(0) ||
+                cell.X + direction.X < 0;
+            if (isXOutOfRange)
             {
-                for (int j = 0; j < arr.GetLength(0); j++)
-                {
-                    if (arr[i, j] == 0) 
-                    { 
-                        x = i; 
-                        y = j; 
-                        return; 
-                    }
-                }
+                direction.X = 0;
             }
 
+            bool isYOutOfRange = cell.Y + direction.Y >= this.matrix.GetLength(0) ||
+                cell.Y + direction.Y < 0;
+            if (isYOutOfRange)
+            {
+                direction.Y = 0;
+            }
+
+            return direction;
         }
 
-        static void Main(string[] args)
+        Cell FindNextFreeCell()
         {
-            int n = 6;
-            int[,] matrix = new int[n, n];
-            int step = n, k = 1, i = 0, j = 0, dx = 1, dy = 1;
+            Cell cell = new Cell(0, 0);
 
-            while (true)
-            { //malko e kofti tova uslovie, no break-a raboti 100% : )
-                matrix[i, j] = k;
-
-                if (!AreThereFreeCells(matrix, i, j)) 
-                { 
-                    break; 
-                } // prekusvame ako sme se zadunili
-
-                if (i + dx >= n || i + dx < 0 || j + dy >= n || j + dy < 0
-                    || matrix[i + dx, j + dy] != 0)
-                {
-                    while ((i + dx >= n || i + dx < 0 || j + dy >= n || j + dy < 0 || matrix[i + dx, j + dy] != 0))
-                    {
-                        Change(ref dx, ref dy);
-                    }
-                }
-
-                i += dx; j += dy; k++;
-            }
-
-            FindNextFreeCell(matrix, out i, out j);
-            if (i != 0 && j != 0)
-            { // taka go napravih, zashtoto funkciqta ne mi davashe da ne si definiram out parametrite
-                k++;
-                dx = 1; dy = 1;
-
-
-                while (true)
-                { //malko e kofti tova uslovie, no break-a raboti 100% : )
-                    matrix[i, j] = k;
-
-                    if (!AreThereFreeCells(matrix, i, j)) 
-                    {
-                        break; 
-                    }// prekusvame ako sme se zadunili
-
-                    if (i + dx >= n || i + dx < 0 || j + dy >= n || j + dy < 0 || matrix[i + dx, j + dy] != 0)
-                    {
-                        while ((i + dx >= n || i + dx < 0 || j + dy >= n || j + dy < 0 || matrix[i + dx, j + dy] != 0))
-                        {
-                            Change(ref dx, ref dy);
-                        }
-                    }
-
-                    i += dx; j += dy; k++;
-                }
-            }
-
-            for (int p = 0; p < n; p++)
+            for (int i = 0; i < this.matrix.GetLength(0); i++)
             {
-                for (int q = 0; q < n; q++)
+                for (int j = 0; j < this.matrix.GetLength(0); j++)
                 {
-                    Console.Write("{0,3}", matrix[p, q]);
+                    if (this.matrix[i, j] == 0)
+                    {
+                        return new Cell(i, j);
+                    }
+                }
+            }
+
+            return cell;
+        }
+
+        public void WalkInMatrix()
+        {
+            PerformLongestWalk();
+            this.previousCell = FindNextFreeCell();
+
+            if (previousCell.X != 0 && previousCell.Y != 0)
+            {
+                currentNumber++;
+                nextCell.X = 1;
+                nextCell.Y = 1;
+                PerformLongestWalk();
+            }
+        }
+
+        private void PerformLongestWalk()
+        {
+            while (true)
+            {
+                matrix[previousCell.X, previousCell.Y] = currentNumber;
+
+                if (!AreThereFreeNeighbours(previousCell))
+                {
+                    break;
                 }
 
-                Console.WriteLine();
+                if (previousCell.X + nextCell.X >= size || previousCell.X + nextCell.X < 0 ||
+                    previousCell.Y + nextCell.Y >= size || previousCell.Y + nextCell.Y < 0 ||
+                    matrix[previousCell.X + nextCell.X, previousCell.Y + nextCell.Y] != 0)
+                {
+                    while ((previousCell.X + nextCell.X >= size || previousCell.X + nextCell.X < 0 ||
+                        previousCell.Y + nextCell.Y >= size || previousCell.Y + nextCell.Y < 0 ||
+                        matrix[previousCell.X + nextCell.X, previousCell.Y + nextCell.Y] != 0))
+                    {
+                        Change(ref nextCell);
+                    }
+                }
+
+                previousCell.X += nextCell.X;
+                previousCell.Y += nextCell.Y;
+                currentNumber++;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    result.Append(string.Format("{0,3}", matrix[i, j]));
+                }
+
+                result.Append("\n");
+            }
+
+            return result.ToString();
         }
     }
 }
