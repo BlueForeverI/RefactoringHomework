@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RotatingWalkInMatrix
 {
@@ -20,6 +17,27 @@ namespace RotatingWalkInMatrix
         {
             this.X = x;
             this.Y = y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Cell cell = (Cell)obj;
+            return this.X == cell.X && this.Y == cell.Y;
+        }
+
+        public static bool operator == (Cell a, Cell b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator != (Cell a, Cell b)
+        {
+            return !a.Equals(b);
+        }
+
+        public static Cell operator +(Cell a, Cell b)
+        {
+            return new Cell(a.X + b.X, a.Y + b.Y);
         }
     }
 }

@@ -1,0 +1,14 @@
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\bin\Debug\RotatingWalkInMatrix.Tests.dll
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\bin\Debug\RotatingWalkInMatrix.Tests.pdb
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\bin\Debug\GameFifteen.exe
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\bin\Debug\GameFifteen.pdb
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\obj\Debug\RotatingWalkInMatrix.Tests.csprojResolveAssemblyReference.cache
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\obj\Debug\RotatingWalkInMatrix.Tests.dll
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\RotatingWalkInMatrix.Tests\obj\Debug\RotatingWalkInMatrix.Tests.pdb
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\bin\Debug\RotatingWalkInMatrix.Tests.dll
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\bin\Debug\RotatingWalkInMatrix.Tests.pdb
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\bin\Debug\GameFifteen.exe
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\bin\Debug\GameFifteen.pdb
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\obj\Debug\RotatingWalkInMatrix.Tests.csprojResolveAssemblyReference.cache
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\obj\Debug\RotatingWalkInMatrix.Tests.dll
+E:\Documents\Telerik-Software-Academy\High-Quality Code\Homework\12. Refactoring-Homework\RotatingWalkInMatrix.Tests\obj\Debug\RotatingWalkInMatrix.Tests.pdb
